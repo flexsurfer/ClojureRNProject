@@ -1,0 +1,19 @@
+{:source-paths ["src" "test"]
+
+ :dependencies [[reagent "0.9.1" :exclusions [cljsjs/react cljsjs/react-dom]]
+                [re-frame "0.11.0"]
+                [re-frame-steroid "0.1.1"]
+                [rn-shadow-steroid "0.1.1"]
+                [re-frisk-rn "0.1.0"]]
+
+ :builds       {:dev
+                {:target     :react-native
+                 :init-fn    clojurernproject.core/init
+                 :output-dir "app"
+                 :devtools   {:autoload   true
+                              :after-load steroid.rn.core/reload}}
+
+                :test
+                {:target    :node-test
+                 :output-to "out/node-tests.js"
+                 :autorun   true}}}
