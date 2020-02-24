@@ -62,3 +62,6 @@ buck-out/
 /android/
 /ios/
 /out/
+/app/
+
+.shadow-cljs
