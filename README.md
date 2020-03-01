@@ -21,7 +21,7 @@ PROJECT SOURCES: https://github.com/flexsurfer/ClojureRNProject
 
 Open project in IDE
 
-![](https://i.imgur.com/GFLzmOi.png =500x)
+![](https://i.imgur.com/GFLzmOi.png)
 
 Edit `App.js`
 
@@ -53,7 +53,7 @@ Run the app
 Terminal 1: `yarn start`
 Terminal 2: `yarn ios`
 
-![](https://i.imgur.com/uO6xvCK.png =300x)
+![](https://i.imgur.com/uO6xvCK.png)
 
 
 OK, now we have RN project and we want to run the same app but with clojure
@@ -102,17 +102,17 @@ create `deps.edn` file
 
 Right click on the file and `Add as Clojure Deps Project`
 
-![](https://i.imgur.com/C110quU.png =500x)
+![](https://i.imgur.com/C110quU.png)
 
 Optional turn off a spelling
 
 Indellij IDEA -> Preferences
 
-![](https://i.imgur.com/eqWzrqM.png =400x)
+![](https://i.imgur.com/eqWzrqM.png)
 
 create `src` folder and `clojurernproject` package with `core.cljs` file
 
-![](https://i.imgur.com/gDEWfL3.png =500x)
+![](https://i.imgur.com/gDEWfL3.png)
 
 
 core.cljs
@@ -145,7 +145,7 @@ Reload the app
 
 Cmnd+D
 
-![](https://i.imgur.com/7sOO4Ko.png =200x)
+![](https://i.imgur.com/7sOO4Ko.png)
 
 Now try to change the code, you should see it reloaded by shadow-cljs in the app
 
@@ -176,7 +176,7 @@ events.cljs
 
 Set cursor on `fx/defn` and press `option+return` 
 
-![](https://i.imgur.com/4ahMkVJ.png =400x)
+![](https://i.imgur.com/4ahMkVJ.png)
 
 Move selection to `Resolve .. as...` and press `return` then select `defn`
 
@@ -219,7 +219,7 @@ Resolve `defview` as `defn` and `letsubs` as `let` same way how we did it for `f
 
 you can press "Update counter" button, and then change your code, and you can see app updated, but app state remained the same
 
-![](https://i.imgur.com/T5wfvnX.png =300x)
+![](https://i.imgur.com/T5wfvnX.png)
 
 now you have clojurescript RN app configured with hot reload and re-frame state
 
@@ -363,7 +363,7 @@ And run tests
 
 Terminal 3: `shadow-cljs compile test`
 
-![](https://i.imgur.com/28gspBL.png =600x)
+![](https://i.imgur.com/28gspBL.png)
 
 ### 7. Navigation
 
