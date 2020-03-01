@@ -11,6 +11,8 @@ shadow-cljs: http://shadow-cljs.org/
 re-frame-steroid: https://github.com/flexsurfer/re-frame-steroid
 rn-shadow-steroid: https://github.com/flexsurfer/rn-shadow-steroid
 
+PROJECT SOURCES: https://github.com/flexsurfer/ClojureRNProject
+
 ### 1. Create a new React Native Project or open existing one
 
 `react-native init ClojureRNProject`
@@ -19,7 +21,7 @@ rn-shadow-steroid: https://github.com/flexsurfer/rn-shadow-steroid
 
 Open project in IDE
 
-![](https://i.imgur.com/GFLzmOi.png )
+![](https://i.imgur.com/GFLzmOi.png =500x)
 
 Edit `App.js`
 
@@ -51,7 +53,7 @@ Run the app
 Terminal 1: `yarn start`
 Terminal 2: `yarn ios`
 
-![](https://i.imgur.com/uO6xvCK.png )
+![](https://i.imgur.com/uO6xvCK.png =300x)
 
 
 OK, now we have RN project and we want to run the same app but with clojure
@@ -81,7 +83,7 @@ Create `shadow-cljs.edn`
                               :after-load steroid.rn.core/reload}}}}
 ```
 
-Next, we need to initialize project as Clojure Deps, it will be used only for code inspection in IDE, if you know a better way pls file a PR
+Next, we need to initialize project as Clojure Deps, `deps.edn` will be used only for code inspection in IDE, if you know a better way pls file a PR
 
 ### 3. Create cljs project
 
@@ -100,17 +102,17 @@ create `deps.edn` file
 
 Right click on the file and `Add as Clojure Deps Project`
 
-![](https://i.imgur.com/C110quU.png)
+![](https://i.imgur.com/C110quU.png =500x)
 
 Optional turn off a spelling
 
 Indellij IDEA -> Preferences
 
-![](https://i.imgur.com/eqWzrqM.png)
+![](https://i.imgur.com/eqWzrqM.png =400x)
 
 create `src` folder and `clojurernproject` package with `core.cljs` file
 
-![](https://i.imgur.com/gDEWfL3.png)
+![](https://i.imgur.com/gDEWfL3.png =500x)
 
 
 core.cljs
@@ -143,16 +145,16 @@ Reload the app
 
 Cmnd+D
 
-![](https://i.imgur.com/7sOO4Ko.png )
+![](https://i.imgur.com/7sOO4Ko.png =200x)
 
 Now try to change the code, you should see it reloaded by shadow-cljs in the app
 
-Congrats now you have clojurescript RN app configured with hot reload
+now you have clojurescript RN app configured with hot reload
 
 
 ### 4. App state with re-frame
 
-To update app state, we need to use events, let's create `events.cljs` and register the first event
+To update app state, we need to use events, let's create `events.cljs` and register our first events
 
 events.cljs
 ```clojure
@@ -171,6 +173,12 @@ events.cljs
   [{:keys [db]}]
   {:db (update db :counter inc)})
 ```
+
+Set cursor on `fx/defn` and press `option+return` 
+
+![](https://i.imgur.com/4ahMkVJ.png =400x)
+
+Move selection to `Resolve .. as...` and press `return` then select `defn`
 
 To update a view when the state is changed, we need to use subscriptions, let's create `subs.cljs` and register subscriptions.
 
@@ -207,14 +215,16 @@ core.cljs
   (rn/register-reload-comp "ClojureRNProject" root-comp))
 ```
 
-Now you can press "Update counter" button, and then change your code, and you can see app updated, but app state remained the same
+Resolve `defview` as `defn` and `letsubs` as `let` same way how we did it for `fx/defn`
 
-![](https://i.imgur.com/T5wfvnX.png)
+you can press "Update counter" button, and then change your code, and you can see app updated, but app state remained the same
 
-Congrats now you have clojurescript RN app configured with hot reload and re-frame state
+![](https://i.imgur.com/T5wfvnX.png =300x)
+
+now you have clojurescript RN app configured with hot reload and re-frame state
 
 There are three major rules when working with re-frame
-1) views are pure and dumb, just show data from subscriptions and dispatch events
+1) views are pure and dumb, just render UI with data from subscriptions and dispatch events
 
 Bad: 
 ```clojure
@@ -235,10 +245,9 @@ Good:
   (views/letsubs [counter-with-delta [:counter-with-delta]]
     [rn/text (str "Counter: " counter-with-delta)]
     [rn/touchable-opacity 
-     {:on-press #(re-frame/dispatch 
-                  [:update-counter])}]))
+     {:on-press #(re-frame/dispatch [:update-counter])}]))
 ```
-we have a separate subscription and event will get all data from state
+we have a separate subscription and event will get all data from the state
 
 2. Only root keys should be subscribed on app-db
 
@@ -308,11 +317,11 @@ core.cljs
   (rn/register-reload-comp "ClojureRNProject" root-comp))
 ```
 
-And run the tool
+run the tool
 
 Terminal 4: `shadow-cljs run re-frisk-rn.core/start`
 
-And open `http://localhost:4567`
+and open `http://localhost:4567`
 
 ![](https://i.imgur.com/6ty7nbr.png)
 
@@ -320,7 +329,7 @@ You can see all that is happening with the app: events, app-db (state) and subsc
 
 ### 6. Tests
 
-Add test folder and configure test build in project 
+Add test folder and configure test build in the project 
 
 ```clojure
 {:source-paths ["src" "test"]
@@ -354,7 +363,7 @@ And run tests
 
 Terminal 3: `shadow-cljs compile test`
 
-![](https://i.imgur.com/28gspBL.png)
+![](https://i.imgur.com/28gspBL.png =600x)
 
 ### 7. Navigation
 
@@ -418,7 +427,7 @@ core.cljs
 
 For hot reload we need to register components differently, we register `root-stack` as regular not reloadable component `rn/register-comp` but we use `rn/reload-comp` for screens, it's important to init screen components outside renderer 
 
-After we required `steroid.rn.navigation.events` ns and added `nav-ref-handler`, we can dispatch `:navigate-to` and `:navigate-back` events to navigate between screens
+After we've required `steroid.rn.navigation.events` ns and added `nav-ref-handler`, we can dispatch `:navigate-to` and `:navigate-back` events for navigation between screens
 
 Try to open modal screen and change the code you will see that navigation state isn't changed, the modal screen will be still opened
 
