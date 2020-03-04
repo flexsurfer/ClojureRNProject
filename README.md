@@ -61,8 +61,9 @@ OK, now we have RN project and we want to run the same app but with clojure
 
 ### 2. Add shadow-cljs
 
-`yarn add --dev shadow-cljs`
 `yarn global add shadow-cljs`
+
+If you are already have it, make sure you are using the latest version
 
 Create `shadow-cljs.edn`
 
