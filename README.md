@@ -74,14 +74,15 @@ Create `shadow-cljs.edn`
                 [re-frame "0.11.0"]
                 [re-frame-steroid "0.1.1"]
                 [rn-shadow-steroid "0.1.1"]
-                [re-frisk-rn "0.1.0"]]
+                [re-frisk-rn "0.1.1"]]
 
  :builds       {:dev
                 {:target     :react-native
                  :init-fn    clojurernproject.core/init
                  :output-dir "app"
                  :devtools   {:autoload true
-                              :after-load steroid.rn.core/reload}}}}
+                              :after-load steroid.rn.core/reload
+                              :preloads [re-frisk-rn.preload]}}}}
 ```
 
 Next, we need to initialize project as Clojure Deps, `deps.edn` will be used only for code inspection in IDE, if you know a better way pls file a PR
@@ -97,7 +98,7 @@ create `deps.edn` file
          re-frame                  {:mvn/version "0.11.0"}
          re-frame-steroid          {:mvn/version "0.1.1"}
          rn-shadow-steroid         {:mvn/version "0.1.1"}
-         re-frisk-rn               {:mvn/version "0.1.0"}}
+         re-frisk-rn               {:mvn/version "0.1.1"}}
  :paths ["src"]}
 ```
 
@@ -303,22 +304,7 @@ Good:
 
 ### 6. Devtools
 
-let's add re-frisk debugging tool and see what's exactly happening in the app
-
-core.cljs
-
-```clojure
-(ns clojurernproject.core
-  (:require ....
-            [re-frisk-rn.core :as rfr]))
-
-(defn init []
-  (rfr/enable)
-  (re-frame/dispatch [:init-app-db])
-  (rn/register-reload-comp "ClojureRNProject" root-comp))
-```
-
-run the tool
+let's run re-frisk debugging tool and see what's exactly happening in the app
 
 Terminal 4: `shadow-cljs run re-frisk-rn.core/start`
 
