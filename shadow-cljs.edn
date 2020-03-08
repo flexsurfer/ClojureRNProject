@@ -4,14 +4,15 @@
                 [re-frame "0.11.0"]
                 [re-frame-steroid "0.1.1"]
                 [rn-shadow-steroid "0.1.1"]
-                [re-frisk-rn "0.1.0"]]
+                [re-frisk-rn "0.1.1"]]
 
  :builds       {:dev
                 {:target     :react-native
                  :init-fn    clojurernproject.core/init
                  :output-dir "app"
                  :devtools   {:autoload   true
-                              :after-load steroid.rn.core/reload}}
+                              :after-load steroid.rn.core/reload
+                              :preloads [re-frisk-rn.preload]}}
 
                 :test
                 {:target    :node-test

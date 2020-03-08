@@ -2,7 +2,6 @@
   (:require [steroid.rn.core :as rn]
             [steroid.views :as views]
             [re-frame.core :as re-frame]
-            [re-frisk-rn.core :as rfr]
             [steroid.rn.navigation.core :as rnn]
             [steroid.rn.navigation.stack :as stack]
             [clojurernproject.views :as screens]
@@ -23,5 +22,4 @@
                :component modal-comp}]]]))
 
 (defn init []
-  (rfr/enable)
   (rn/register-comp "ClojureRNProject" root-stack))
