@@ -3,12 +3,13 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
+    "dev": "shadow-cljs watch dev",
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint .",
-    "re-frisk": "shadow-cljs run re-frisk-rn.core/start"
+    "re-frisk": "shadow-cljs run re-frisk-remote.core/start"
   },
   "dependencies": {
     "@react-native-community/masked-view": "^0.1.6",
@@ -20,7 +21,8 @@
     "react-native-gesture-handler": "^1.6.0",
     "react-native-reanimated": "^1.7.0",
     "react-native-safe-area-context": "^0.7.3",
-    "react-native-screens": "^2.0.0-beta.10"
+    "react-native-screens": "^2.0.0-beta.10",
+    "websocket": "^1.0.31"
   },
   "devDependencies": {
     "@babel/core": "^7.8.4",

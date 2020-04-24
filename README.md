@@ -80,6 +80,8 @@ Create `shadow-cljs.edn`
                 {:target     :react-native
                  :init-fn    clojurernproject.core/init
                  :output-dir "app"
+                 :compiler-options {:closure-defines
+                                    {"re_frame.trace.trace_enabled_QMARK_" true}}
                  :devtools   {:autoload true
                               :after-load steroid.rn.core/reload
                               :preloads [re-frisk-remote.preload]}}}}
