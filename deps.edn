@@ -4,5 +4,5 @@
          re-frame                  {:mvn/version "0.11.0"}
          re-frame-steroid          {:mvn/version "0.1.1"}
          rn-shadow-steroid         {:mvn/version "0.1.1"}
-         re-frisk-rn               {:mvn/version "0.1.1"}}
+         re-frisk-remote           {:mvn/version "1.0.0"}}
  :paths ["src" "test"]}

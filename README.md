@@ -74,7 +74,7 @@ Create `shadow-cljs.edn`
                 [re-frame "0.11.0"]
                 [re-frame-steroid "0.1.1"]
                 [rn-shadow-steroid "0.1.1"]
-                [re-frisk-rn "0.1.1"]]
+                [re-frisk-remote "1.0.0"]]
 
  :builds       {:dev
                 {:target     :react-native
@@ -82,7 +82,7 @@ Create `shadow-cljs.edn`
                  :output-dir "app"
                  :devtools   {:autoload true
                               :after-load steroid.rn.core/reload
-                              :preloads [re-frisk-rn.preload]}}}}
+                              :preloads [re-frisk-remote.preload]}}}}
 ```
 
 Next, we need to initialize project as Clojure Deps, `deps.edn` will be used only for code inspection in IDE, if you know a better way pls file a PR
@@ -98,7 +98,7 @@ create `deps.edn` file
          re-frame                  {:mvn/version "0.11.0"}
          re-frame-steroid          {:mvn/version "0.1.1"}
          rn-shadow-steroid         {:mvn/version "0.1.1"}
-         re-frisk-rn               {:mvn/version "0.1.1"}}
+         re-frisk-remote           {:mvn/version "1.0.0"}}
  :paths ["src"]}
 ```
 
@@ -306,7 +306,7 @@ Good:
 
 let's run re-frisk debugging tool and see what's exactly happening in the app
 
-Terminal 4: `shadow-cljs run re-frisk-rn.core/start`
+Terminal 4: `shadow-cljs run re-frisk-remote.core/start`
 
 and open `http://localhost:4567`
 
