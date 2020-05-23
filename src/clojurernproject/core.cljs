@@ -1,25 +1,37 @@
 (ns clojurernproject.core
   (:require [steroid.rn.core :as rn]
-            [steroid.views :as views]
             [re-frame.core :as re-frame]
             [steroid.rn.navigation.core :as rnn]
             [steroid.rn.navigation.stack :as stack]
+            [steroid.rn.navigation.bottom-tabs :as bottom-tabs]
             [clojurernproject.views :as screens]
+            [steroid.rn.navigation.safe-area :as safe-area]
             steroid.rn.navigation.events
             clojurernproject.events
             clojurernproject.subs))
 
-(views/defview root-stack []
-  (views/letsubs [[navigator screen] (stack/create-stack-navigator)
-                  home-comp (rn/reload-comp screens/home-screen)
-                  modal-comp (rn/reload-comp screens/modal-screen)]
-    {:component-did-mount (rnn/create-mount-handler #(re-frame/dispatch [:init-app-db]))}
-    [rnn/navigation-container {:ref rnn/nav-ref-handler}
-     [navigator {:mode :modal}
-      [screen {:name      :home
-               :component home-comp}]
-      [screen {:name      :modal
-               :component modal-comp}]]]))
+(defn main-screens []
+  [bottom-tabs/bottom-tab
+   [{:name      :home
+     :component screens/home-screen}
+    {:name      :basic
+     :component screens/basic-screen}
+    {:name      :ui
+     :component screens/ui-screen}
+    {:name      :list
+     :component screens/list-screen}
+    {:name      :storage
+     :component screens/storage-screen}]])
+
+(defn root-stack []
+  [safe-area/safe-area-provider
+   [(rnn/create-navigation-container-reload
+     {:on-ready #(re-frame/dispatch [:init-app-db])}
+     [stack/stack {:mode :modal :header-mode :none}
+      [{:name      :main
+        :component main-screens}
+       {:name      :modal
+        :component screens/modal-screen}]])]])
 
 (defn init []
   (rn/register-comp "ClojureRNProject" root-stack))

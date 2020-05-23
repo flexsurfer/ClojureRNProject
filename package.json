@@ -12,7 +12,11 @@
     "re-frisk": "shadow-cljs run re-frisk-remote.core/start"
   },
   "dependencies": {
+    "@react-native-community/async-storage": "^1.10.1",
+    "@react-native-community/datetimepicker": "^2.4.0",
     "@react-native-community/masked-view": "^0.1.6",
+    "@react-native-community/picker": "^1.5.0",
+    "@react-navigation/bottom-tabs": "^5.4.5",
     "@react-navigation/native": "^5.0.7",
     "@react-navigation/stack": "^5.0.9",
     "react": "16.9.0",
@@ -20,8 +24,9 @@
     "react-native": "0.61.5",
     "react-native-gesture-handler": "^1.6.0",
     "react-native-reanimated": "^1.7.0",
-    "react-native-safe-area-context": "^0.7.3",
+    "react-native-safe-area-context": "^1.0.2",
     "react-native-screens": "^2.0.0-beta.10",
+    "shadow-cljs": "^2.9.6",
     "websocket": "^1.0.31"
   },
   "devDependencies": {

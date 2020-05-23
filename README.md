@@ -61,20 +61,20 @@ OK, now we have RN project and we want to run the same app but with clojure
 
 ### 2. Add shadow-cljs
 
-`yarn global add shadow-cljs`
+`yarn add shadow-cljs`
 
-If you are already have it, make sure you are using the latest version
+If you already have it, make sure you are using the latest version
 
 Create `shadow-cljs.edn`
 
 ```clojure
 {:source-paths ["src"]
 
- :dependencies [[reagent "0.9.1" :exclusions [cljsjs/react cljsjs/react-dom]]
-                [re-frame "0.11.0"]
+ :dependencies [[reagent "0.10.0"]
+                [re-frame "0.12.0"]
                 [re-frame-steroid "0.1.1"]
-                [rn-shadow-steroid "0.1.1"]
-                [re-frisk-remote "1.0.0"]]
+                [rn-shadow-steroid "0.2.1"]
+                [re-frisk-remote "1.3.3"]]
 
  :builds       {:dev
                 {:target     :react-native
@@ -82,8 +82,8 @@ Create `shadow-cljs.edn`
                  :output-dir "app"
                  :compiler-options {:closure-defines
                                     {"re_frame.trace.trace_enabled_QMARK_" true}}
-                 :devtools   {:autoload true
-                              :after-load steroid.rn.core/reload
+                 :devtools   {:after-load steroid.rn.core/reload
+                              :build-notify steroid.rn.core/build-notify
                               :preloads [re-frisk-remote.preload]}}}}
 ```
 
@@ -96,11 +96,10 @@ create `deps.edn` file
 ```clojure
 {:deps  {org.clojure/clojure       {:mvn/version "1.10.0"}
          org.clojure/clojurescript {:mvn/version "1.10.339"}
-         reagent                   {:mvn/version "0.9.1"}
-         re-frame                  {:mvn/version "0.11.0"}
+         reagent                   {:mvn/version "0.10.0"}
+         re-frame                  {:mvn/version "0.12.0"}
          re-frame-steroid          {:mvn/version "0.1.1"}
-         rn-shadow-steroid         {:mvn/version "0.1.1"}
-         re-frisk-remote           {:mvn/version "1.0.0"}}
+         rn-shadow-steroid         {:mvn/version "0.2.1"}}
  :paths ["src"]}
 ```
 
@@ -358,8 +357,7 @@ Terminal 3: `shadow-cljs compile test`
 
 React Navigation 5
 
-Terminal 2: `yarn add @react-navigation/native @react-navigation/stack react-native-reanimated react-native-gesture-handler react-native-screens react-native-safe-area-context @react-native-community/masked-view`
-
+Terminal 2: `yarn add @react-navigation/native @react-navigation/stack @react-navigation/bottom-tab react-native-reanimated react-native-gesture-handler react-native-screens react-native-safe-area-context @react-native-community/masked-view`
 
 Terminal 2: `cd ios; pod install; cd ..`
 
@@ -369,58 +367,49 @@ core.cljs
 ```clojure
 (ns clojurernproject.core
   (:require [steroid.rn.core :as rn]
-            [steroid.views :as views]
             [re-frame.core :as re-frame]
-            [re-frisk-rn.core :as rfr]
             [steroid.rn.navigation.core :as rnn]
             [steroid.rn.navigation.stack :as stack]
+            [steroid.rn.navigation.bottom-tabs :as bottom-tabs]
+            [clojurernproject.views :as screens]
+            [steroid.rn.navigation.safe-area :as safe-area]
             steroid.rn.navigation.events
             clojurernproject.events
             clojurernproject.subs))
 
-(views/defview home-screen []
-  (views/letsubs [counter [:counter-with-delta]]
-    [rn/safe-area-view {:style {:flex 1}}
-     [rn/view {:style {:align-items :center :justify-content :center :flex 1}}
-      [rn/text (str "Counter with delta: " counter)]
-      [rn/touchable-opacity {:on-press #(re-frame/dispatch [:update-counter])}
-       [rn/view {:style {:background-color :gray :padding 5}}
-        [rn/text "Update counter"]]]
-      [rn/touchable-opacity {:on-press #(re-frame/dispatch [:navigate-to :modal])
-                             :style {:margin-top 20}}
-       [rn/view {:style {:background-color :gray :padding 5}}
-        [rn/text "Open modal"]]]]]))
+(defn main-screens []
+  [bottom-tabs/bottom-tab
+   [{:name      :home
+     :component screens/home-screen}
+    {:name      :basic
+     :component screens/basic-screen}
+    {:name      :ui
+     :component screens/ui-screen}
+    {:name      :list
+     :component screens/list-screen}
+    {:name      :storage
+     :component screens/storage-screen}]])
 
-(defn modal-screen []
-  [rn/view {:style {:align-items :center :justify-content :center :flex 1}}
-    [rn/touchable-opacity {:on-press #(re-frame/dispatch [:navigate-back])}
-     [rn/view {:style {:background-color :gray :padding 5}}
-      [rn/text "Navigate back"]]]])
-
-(views/defview root-stack []
-  (views/letsubs [[navigator screen] (stack/create-stack-navigator)
-                  home-comp (rn/reload-comp home-screen)
-                  modal-comp (rn/reload-comp modal-screen)]
-    {:component-did-mount (rnn/create-mount-handler #(re-frame/dispatch [:init-app-db]))}
-    [rnn/navigation-container {:ref rnn/nav-ref-handler}
-      [navigator {:mode :modal}
-       [screen {:name      :home
-                :component home-comp}]
-       [screen {:name      :modal
-                :component modal-comp}]]]))
+(defn root-stack []
+  [safe-area/safe-area-provider
+   [(rnn/create-navigation-container-reload
+     {:on-ready #(re-frame/dispatch [:init-app-db])}
+     [stack/stack {:mode :modal :header-mode :none}
+      [{:name      :main
+        :component main-screens}
+       {:name      :modal
+        :component screens/modal-screen}]])]])
 
 (defn init []
-  (rfr/enable)
   (rn/register-comp "ClojureRNProject" root-stack))
 ```
 
-For hot reload we need to register components differently, we register `root-stack` as regular not reloadable component `rn/register-comp` but we use `rn/reload-comp` for screens, it's important to init screen components outside renderer 
+For hot reload we need to register components differently, we register `root-stack` as regular not reloadable component `rn/register-comp` but we use `rnn/create-navigation-container-reload` for navigation container
 
-After we've required `steroid.rn.navigation.events` ns and added `nav-ref-handler`, we can dispatch `:navigate-to` and `:navigate-back` events for navigation between screens
+After we've required `steroid.rn.navigation.events` ns we can dispatch `:navigate-to` and `:navigate-back` events for navigation between screens
 
 Try to open modal screen and change the code you will see that navigation state isn't changed, the modal screen will be still opened
 
-![](https://i.imgur.com/RUoATTt.png)
-
+![IMG](screencast.gif)
 
 КОНЕЦ
