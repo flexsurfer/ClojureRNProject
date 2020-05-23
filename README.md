@@ -410,6 +410,6 @@ After we've required `steroid.rn.navigation.events` ns we can dispatch `:navigat
 
 Try to open modal screen and change the code you will see that navigation state isn't changed, the modal screen will be still opened
 
-![IMG](screencast.gif)
+![IMG](https://github.com/flexsurfer/rn-shadow-steroid/raw/master/screencast.gif)
 
 КОНЕЦ
