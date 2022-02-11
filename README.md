@@ -357,7 +357,7 @@ Terminal 3: `shadow-cljs compile test`
 
 React Navigation 5
 
-Terminal 2: `yarn add @react-navigation/native @react-navigation/stack @react-navigation/bottom-tab react-native-reanimated react-native-gesture-handler react-native-screens react-native-safe-area-context @react-native-community/masked-view`
+Terminal 2: `yarn add @react-navigation/native @react-navigation/stack @react-navigation/bottom-tabs react-native-reanimated react-native-gesture-handler react-native-screens react-native-safe-area-context @react-native-community/masked-view`
 
 Terminal 2: `cd ios; pod install; cd ..`
 
