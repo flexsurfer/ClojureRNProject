@@ -4,12 +4,18 @@ hackmd: https://hackmd.io/@byc70E6fQy67hPMN0WM9_A/rJilnJxE8
 
 Clojure: https://clojure.org/guides/getting_started
 
+
 Code editor: IntelliJ IDEA Community https://www.jetbrains.com/idea/download/
+
 with Cursive plugin https://cursive-ide.com/
 
+
 shadow-cljs: http://shadow-cljs.org/
+
 re-frame-steroid: https://github.com/flexsurfer/re-frame-steroid
+
 rn-shadow-steroid: https://github.com/flexsurfer/rn-shadow-steroid
+
 
 PROJECT SOURCES: https://github.com/flexsurfer/ClojureRNProject
 
